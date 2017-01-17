@@ -1,26 +1,18 @@
 # machine-learning-face-expression
-Algoritmo basico de reconhecimento de expressoes faciais usando a lib do python angus.ai
+Algoritmo basico de reconhecimento de expressoes faciais usando a lib do python opencv
 
-## how it works?
-  A entrada de dados consiste em um input stream de imagens continuas (video) ou pre-carregado ou a live que ira servir de amostragem para o algoritmo
-  
-  A saida de dados sera um JSON com o retorno da i.a com as seguintes entidades
-    
-  -  **input_size**: sera a resolucao da imagem que foi enviada, quanto maior a resolucao, melhor sera o reconhecimento
-  -  **nb_faces** : sera o numero de faces reconhecidas
-  -  **roi** : para cada face um roi sera calculado, que sera tamanho e posicionamento do quadrado onde a face foi detectada
-  -  **roi_confidence** : sera o quanto a imagem reconhecida e real ou nao (lembrando 0 é o menos real e 1 é o mais real)
-  -  **neutral** : indica em uma escala de 0 a 1 se o rosto é neutro 
-  -  **happiness**: indica em uma escala de 0 a 1 se o rosto esta contente
-  -  **surprise** : indica em uma escala de 0 a 1 se o rosto está surpreso
-  -  **anger**: indica em uma escala de 0 a 1 se o rosto esta nervoso
-  -  **sadness** : indica em uma escala de 0 a 1 se o rosto esta triste
-  
+## primeiros passos
+Os primeiros passos de reconhecimento de expressões faciais consiste no reconhecimento das faces. Para entendermos mais sobre isso fiz um exemplo em python que reconhece o rosto e marca com o retangulo (pasta face-detection)
 
-## como usar esse treco?  
- Exite a opção de usar a api em python (não phyton... serio, isso nao existe kkk) e em java. Como somos *hardusers* vamos ir pro python!
+## Principios do reconhecimento de imagem
+É bom entendermos como funciona as funçes do opencv que chamamos. 
+A primeira que chamamos é a CascadeClassifier, que é um algoritmo baseado em passos (steps) de reconhecimento facial. A ideai inicial era que para cada imagem a i.a cria 6000 classificadores para identificar se aquela imagem em questão é ou não um rosto. Porém esse teste é feito praticamente pixel por pixel, então  é como se ela identifica-se pixel por pixel a imagem e pergunta-se: "Isso é um rosto?"... "Isso é um rosto?"
+Para obter essa resposta, a i.a deveria obter esse 6000 classificadores de cada pedaço da imagem, o que demoraria um tempo considerável, já que as imagens hj possuem pelo menos 1020x720px e é claro que o reconhecimento de uma imagem demoraria muito tempo para um computador com processamento mediano.
+Por isso a opencv tem essa função chamada Cascade, que é um método de identificação que aplica de 30~50 passos para uma "triagem" dos pixels. Se ele passar nos passos, será aplicado os classificadores, se não, o algoritmo nem chega a executar, fazendo o trabalho de horas se transformar em real time.
+
  
-### primeiro vamos instalar o python
+## Para começar a executar o exemplo
+  ### primeiro vamos instalar o python
   
 No linux já vem instalado, porém faça os seguintes passos
 `python3 - V`
@@ -34,5 +26,16 @@ ira atualizar seu linux e consequentemente ira baixar a nova versao do python
 
 No Windows é só baixar do site e next-next-next finish
 
-### executando
+### depois instalar o opencv
+No linux também já vai estar instalado, só para garantir dé os comandos
+```
+sudo apt-get update
+sudo apt-get -y upgrade
+```
+e teste no console assim
+```
+pyhton
+>>> import cv2
+```
+se voce rodar esse comando e nao obter erro algum esta tudo certo :D
   
